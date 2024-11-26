@@ -97,7 +97,7 @@ public class ArticleController {
         articleService.upRecommendation(articleId);
         Article article = articleService.findArticleById(articleId);
         userService.upPoint(article.getUser().getId());
-        System.out.println("Asdasd");
+        System.out.println("Asdassd");
 
         return ResponseEntity.ok("게시물 추천 성공");
     }
