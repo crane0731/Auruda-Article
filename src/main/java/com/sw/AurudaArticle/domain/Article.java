@@ -32,7 +32,7 @@ public class Article {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "content",nullable = false)
+    @Column(columnDefinition = "TEXT" ,name = "content",nullable = false)
     private String content;
 
     @Column(name = "recommendation",nullable = false)
