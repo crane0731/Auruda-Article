@@ -10,6 +10,7 @@ import com.sw.AurudaArticle.service.CommentService;
 import com.sw.AurudaArticle.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,6 @@ public class ArticleController {
     public ResponseEntity<Object> createArticle(@RequestHeader("User-Id")Long userId, @Valid @RequestBody AddArticleRequestDto requestDto, BindingResult bindingResult) {
         // 오류 메시지를 담을 Map
         Map<String, String> errorMessages = new HashMap<>();
-
         //유효성 검사에서 오류가 발생한 경우 모든 메시지를 Map에 추가
         if (bindingResult.hasErrors()) {
             bindingResult.getFieldErrors().forEach(error ->
@@ -97,7 +97,6 @@ public class ArticleController {
         articleService.upRecommendation(articleId);
         Article article = articleService.findArticleById(articleId);
         userService.upPoint(article.getUser().getId());
-        System.out.println("Asdassssd");
 
         return ResponseEntity.ok("게시물 추천 성공");
     }
@@ -107,6 +106,11 @@ public class ArticleController {
     public ResponseEntity<ArticleResponseDto> getArticle(@PathVariable("article_id") Long articleId) {
         Article article = articleService.findArticleById(articleId);
         List<Comment> comments = commentService.findComments(articleId);
+
+        //조회수 1증가 시키기
+        articleService.upCount(articleId);
+
+
         List<CommentListResponseDto> commentListResponseDtos = comments.stream().map(this::createCommentListResponseDto).toList();
         ArticleResponseDto articleResponseDto = createArticleResponseDto(article, commentListResponseDtos);
 
@@ -147,6 +151,7 @@ public class ArticleController {
                 .userGrade(String.valueOf(article.getUser().getGrade()))
                 .title(article.getTitle())
                 .recommendation(article.getRecommendation())
+                .count(article.getCount())
                 .createdAt(article.getCreatedAt())
                 .updatedAt(article.getUpdatedAt())
                 .build()).toList();
@@ -158,6 +163,7 @@ public class ArticleController {
                         .articleId(article.getId())
                         .title(article.getTitle())
                         .recommendation(article.getRecommendation())
+                        .count(article.getCount())
                         .userId(article.getUser().getId())
                         .userName(article.getUser().getNickname())
                         .userEmail(article.getUser().getEmail())
@@ -193,6 +199,7 @@ public class ArticleController {
                 .title(article.getTitle())
                 .content(article.getContent())
                 .recommendation(article.getRecommendation())
+                .count(article.getCount())
                 .userId(article.getUser().getId())
                 .userName(article.getUser().getNickname())
                 .userEmail(article.getUser().getEmail())

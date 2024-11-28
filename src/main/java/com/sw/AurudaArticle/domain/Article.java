@@ -38,6 +38,9 @@ public class Article {
     @Column(name = "recommendation",nullable = false)
     private Long recommendation;
 
+    @Column(name = "count")
+    private Long count;
+
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
@@ -60,10 +63,16 @@ public class Article {
         recommendation++;
     }
 
+    public void addCount(){
+        count++;
+    }
+
     public void addComment(Comment comment) {
         comments.add(comment);
         comment.setArticle(this);
     }
+
+
 
     public void removeComment(Comment comment) {
         comments.remove(comment);

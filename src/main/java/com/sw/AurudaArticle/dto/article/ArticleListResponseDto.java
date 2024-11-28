@@ -11,6 +11,7 @@ public class ArticleListResponseDto {
     private Long articleId;
     private String title;
     private Long recommendation;
+    private Long count;
     private Long userId;
     private String userName;
     private String userEmail;

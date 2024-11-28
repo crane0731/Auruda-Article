@@ -100,6 +100,13 @@ public class ArticleService {
         article.addRecommendation();
     }
 
+    //조회수 증가
+    @Transactional
+    public void upCount(Long articleId) {
+        Article article = findArticleById(articleId);
+        article.addCount();
+    }
+
     //게시글 수정
     @Transactional
     public void updateArticle(Long articleId, UpdateArticleRequestDto dto) {

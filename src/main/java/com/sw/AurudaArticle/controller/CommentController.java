@@ -64,7 +64,6 @@ public class CommentController {
         if (!errorMessages.isEmpty()) {
             return ResponseEntity.badRequest().body(errorMessages);
         }
-
         commentService.saveReply(userId, commentId, requestDto);
         return ResponseEntity.ok("댓글 등록 성공");
     }
