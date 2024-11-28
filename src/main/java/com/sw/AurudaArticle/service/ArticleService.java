@@ -44,6 +44,7 @@ public class ArticleService {
                 .content(dto.content)
                 .articleType(ArticleType.valueOf(dto.type))
                 .recommendation(0L)
+                .count(0L)
                 .travelPlanId(dto.travelPlanId)
                 .build();
 
