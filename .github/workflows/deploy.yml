@@ -8,8 +8,8 @@ on:
 env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: aurudabucket
- # CODE_DEPLOY_APPLICATION_NAME: craneCodeDeploy
-  #CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: craneCodeDeployGroup
+  CODE_DEPLOY_APPLICATION_NAME: aurudadeploy
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: cranegroup
 
 permissions:
   contents: read
