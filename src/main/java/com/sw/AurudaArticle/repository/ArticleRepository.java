@@ -13,6 +13,9 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     // ArticleType별로 recommendation 값을 기준으로 내림차순 정렬된 리스트 반환
     List<Article> findAllByArticleTypeOrderByRecommendationDesc(ArticleType articleType);
 
+    //ArticleType별로 조회수가 높은 순서대로 정렬된 리스트 반환
+    List<Article> findAllByArticleTypeOrderByCountDesc(ArticleType articleType);
+
     // ArticleType별로 최신순 정렬된 리스트 반환
     @Query("SELECT a FROM Article a WHERE a.articleType = :articleType ORDER BY COALESCE(a.updatedAt, a.createdAt) DESC")
     List<Article> findAllByArticleTypeOrderByLatest(ArticleType articleType);
@@ -20,6 +23,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     // ArticleType별로 빠른 순서대로 정렬된 리스트 반환
     @Query("SELECT a FROM Article a WHERE a.articleType = :articleType ORDER BY COALESCE(a.updatedAt, a.createdAt) ASC")
     List<Article> findAllByArticleTypeOrderByEarliest(ArticleType articleType);
+
+
 
 
     //userId로 게시글 찾기

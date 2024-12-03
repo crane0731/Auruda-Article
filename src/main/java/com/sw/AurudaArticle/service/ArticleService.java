@@ -84,6 +84,10 @@ public class ArticleService {
             else if (dto.getSortingType().equals("3")) {
                 return articleRepository.findAllByArticleTypeOrderByRecommendationDesc(ArticleType.valueOf(dto.getArticleType()));
             }
+            //4번이면 조회수 대로 조회
+            else if(dto.getSortingType().equals("4")) {
+                return articleRepository.findAllByArticleTypeOrderByCountDesc(ArticleType.valueOf(dto.getArticleType()));
+            }
             else{
                 throw new CustomException(ErrorCode.INVALID_REQUEST,ErrorMessage.INVALID_SORTING_TYPE);
             }

@@ -69,6 +69,7 @@ public class ArticleController {
     //1 최근 순서대로 조회:
     //2 오래된 순서대로 조회:
     //3 추천수대로 조회:
+    //4 조회수대로 조회:
 
     //게시물 조회(리스트)
     @PostMapping
@@ -167,7 +168,7 @@ public class ArticleController {
                         .userId(article.getUser().getId())
                         .userName(article.getUser().getNickname())
                         .userEmail(article.getUser().getEmail())
-                        .userGrade(String.valueOf(article.getUser().getGrade().getComment()))
+                        .userGrade(article.getUser().getGrade().getComment())
                         .createdAt(article.getCreatedAt())
                         .updatedAt(article.getUpdatedAt())
                         .build()
@@ -203,7 +204,7 @@ public class ArticleController {
                 .userId(article.getUser().getId())
                 .userName(article.getUser().getNickname())
                 .userEmail(article.getUser().getEmail())
-                .userGrade(String.valueOf(article.getUser().getGrade()))
+                .userGrade(article.getUser().getGrade().getComment())
                 .comments(comments)
                 .travelPlanId(article.getTravelPlanId())
                 .createdAt(article.getCreatedAt())
