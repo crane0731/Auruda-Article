@@ -39,7 +39,7 @@ public class LocalStorageService implements StorageService {
         // 업로드된 파일의 원래 이름을 가져와 깨끗한 경로로 변환
         String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
         String fileExtension = "";
-        System.out.println("sssssss");
+        System.out.println("ssssssss");
         try {
             // 파일 이름에 "."이 포함되어 있다면 예외 발생 (보안 검증)
             if (originalFileName.contains("..")) {
