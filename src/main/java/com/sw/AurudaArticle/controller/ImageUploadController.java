@@ -30,6 +30,7 @@ public class ImageUploadController {
 
     @PostMapping("/image")
     public ResponseEntity<?> uploadImage(@RequestParam("image")MultipartFile image){
+        System.out.println("asd");
         try{
             String imageUrl = storageService.uploadFile(image);
             return ResponseEntity.ok().body(new ImageResponseDto(imageUrl));
