@@ -1,9 +1,13 @@
 package com.sw.AurudaArticle.service.storage;
+import com.sw.AurudaArticle.exception.CustomException;
+import com.sw.AurudaArticle.exception.ErrorCode;
+import com.sw.AurudaArticle.exception.ErrorMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,13 +37,12 @@ public class LocalStorageService implements StorageService {
         }
     }
 
-    // 파일 업로드 메서드: 파일을 저장하고 URL을 반환
+    //이미지 파일을 URL로 반환 하는 메서드
     @Override
     public String uploadFile(MultipartFile file) {
         // 업로드된 파일의 원래 이름을 가져와 깨끗한 경로로 변환
         String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
         String fileExtension = "";
-        System.out.println("ssssssss");
         try {
             // 파일 이름에 "."이 포함되어 있다면 예외 발생 (보안 검증)
             if (originalFileName.contains("..")) {
@@ -72,13 +75,49 @@ public class LocalStorageService implements StorageService {
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
             // 저장된 파일의 URL 반환
-            return "/uploads/" + fileName;
+            return fileName;
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             // 파일 저장 중 오류가 발생하면 예외 발생
             throw new RuntimeException("Could not store file " + originalFileName + ". Please try again!", e);
         }
     }
+
+    //URL 을 통해 폴더에 저장된 이미지를 삭제하는 메서드
+    @Override
+    public void deleteImageFiles(String fileName) {
+        //폴더 경로 설정
+        String folderPath ="/app/articleImages";
+
+        //URL에서 파일 이름만 추출
+        if(fileName.contains("/")){
+            fileName = fileName.substring(fileName.lastIndexOf("/")+1);
+        }
+
+        // 삭제할 파일의 전체 경로 생성
+        File file = new File(folderPath, fileName);
+
+        //파일이 존재하면 삭제
+        if(file.exists()){
+            boolean isDeleted = file.delete();
+            if (isDeleted) {
+                System.out.println("파일이 성공적으로 삭제되었습니다: " + file.getAbsolutePath());
+            } else {
+                System.out.println("파일 삭제에 실패하였습니다: " + file.getAbsolutePath());
+                throw new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, ErrorMessage.FAILED_DELETE_FILE);
+            }
+        }
+        else{
+            System.out.println("삭제하려는 파일의 전체 경로: " + file.getAbsolutePath());
+
+            throw new CustomException(ErrorCode.NOT_FOUND, ErrorMessage.NO_FOUND_FILE);
+
+
+        }
+    }
+
+
+
 
     // MIME 타입이 이미지인지 확인하는 메서드
     private boolean isImage(String contentType) {

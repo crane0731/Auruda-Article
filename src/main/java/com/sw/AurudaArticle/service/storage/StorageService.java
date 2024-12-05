@@ -12,4 +12,5 @@ public interface StorageService {
      */
 
     String uploadFile(MultipartFile file);
+    void deleteImageFiles(String fileName);
 }

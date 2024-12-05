@@ -1,15 +1,15 @@
 package com.sw.AurudaArticle.controller;
 
+import com.sw.AurudaArticle.dto.image.DeleteImageRequestDto;
 import com.sw.AurudaArticle.dto.image.ImageResponseDto;
 import com.sw.AurudaArticle.service.storage.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,15 +28,28 @@ public class ImageUploadController {
      *
      */
 
+    //이미지를 저장하고 url을 반환하는 컨트롤러
     @PostMapping("/image")
-    public ResponseEntity<?> uploadImage(@RequestParam("image")MultipartFile image){
-        System.out.println("asd");
+    public ResponseEntity<Object> uploadImage(@RequestParam("image")MultipartFile image){
         try{
             String imageUrl = storageService.uploadFile(image);
             return ResponseEntity.ok().body(new ImageResponseDto(imageUrl));
         }catch (RuntimeException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
+    }
+    
+    //url을 받아 이미지 파일 삭제하는 컨트롤러
+
+    @DeleteMapping("/image")
+    public ResponseEntity<Object> deleteImage(@RequestBody DeleteImageRequestDto deleteImageRequestDto){
+
+        List<String> imageUrls = deleteImageRequestDto.getImageUrls();
+
+        for (String imageUrl : imageUrls) {
+            //삭제 메서드
+        }
+
     }
 
 
