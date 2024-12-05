@@ -42,13 +42,15 @@ public class ImageUploadController {
     //url을 받아 이미지 파일 삭제하는 컨트롤러
 
     @DeleteMapping("/image")
-    public ResponseEntity<Object> deleteImage(@RequestBody DeleteImageRequestDto deleteImageRequestDto){
+    public ResponseEntity<String> deleteImage(@RequestBody DeleteImageRequestDto deleteImageRequestDto){
 
         List<String> imageUrls = deleteImageRequestDto.getImageUrls();
 
         for (String imageUrl : imageUrls) {
-            //삭제 메서드
+            storageService.deleteImageFiles(imageUrl);
         }
+
+        return ResponseEntity.ok().body("이미지 삭제 성공");
 
     }
 
