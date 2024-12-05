@@ -87,6 +87,7 @@ public class LocalStorageService implements StorageService {
     @Override
     public void deleteImageFiles(String fileName) {
         //폴더 경로 설정
+        //String folderPath = "C:\\Users\\dlwns\\source\\spring\\Auruda\\ArticleImage";
         String folderPath ="/app/articleImages";
 
         //URL에서 파일 이름만 추출
